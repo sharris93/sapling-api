@@ -4,7 +4,7 @@ const projectSchema = new mongoose.Schema({
   name: { type: String, required: true },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' , required: true },
   description: { type: String, required: true },
-  goalAmount: { type: Number, required: true },
+  goalAmount: { type: Number, required: true, min: 1 },
   currentAmount: { type: Number, required: true, default: 0 },
   deadline: { type: Date, required: true }
 }, {

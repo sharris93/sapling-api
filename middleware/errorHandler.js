@@ -15,6 +15,11 @@ const logError = (err) => {
 const errorHandler = (err, req, res, next) => {
   logError(err)
 
+  // * 404 / Not Found
+  if (err.name === 'NotFound'){
+    return res.status(404).json({ message: err.message })
+  }
+
   // * Custom Validation Error (InvalidData)
   if (err.name === 'InvalidData') {
     return res.status(err.status).json(err.response)
@@ -39,11 +44,20 @@ const errorHandler = (err, req, res, next) => {
     })
   }
 
+  // * Forbidden
+  if (err.name === 'Forbidden') {
+    return res.status(403).json({ message: err.message })
+  }
+
   // * Unauthorized 
   if (err.name === 'Unauthorized' || err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
+  // * Invalid ObjectId
+  if (err.name === 'CastError' && err.kind === 'ObjectId') {
+    return res.status(404).json({ message: 'Item not found' })
+  }
 
   // * Fallback response if no error has been identified
   return res.status(500).json({ message: 'Internal Server Error' })
