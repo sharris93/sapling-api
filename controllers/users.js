@@ -3,6 +3,7 @@ import User from '../models/user.js'
 import { InvalidData, Unauthorized } from '../utils/errors.js'
 import bcrypt from 'bcrypt'
 import { generateToken } from '../utils/tokens.js'
+import verifyToken from '../middleware/verifyToken.js'
 
 const router = express.Router()
 
@@ -56,6 +57,18 @@ router.post('/sign-in', async (req, res, next) => {
 
     // Response
     return res.json({ token: token })
+  } catch (error) {
+    next(error)
+  }
+})
+
+// * Profile
+router.get('/profile', verifyToken, async (req, res, next) => {
+  try {
+    const profile = await User.findById(req.user._id)
+      .populate(['ownedProjects', 'pledgesMade'])
+
+    return res.json(profile)
   } catch (error) {
     next(error)
   }

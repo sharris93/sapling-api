@@ -34,7 +34,7 @@ router.get('', async (req, res, next) => {
 router.get('/:projectId', async (req, res, next) => {
   try {
     const { projectId } = req.params
-    const project = await Project.findById(projectId).populate('pledges')
+    const project = await Project.findById(projectId).populate(['pledges', 'owner'])
     if (!project) throw new NotFound('Project not found')
 
     return res.json(project)
