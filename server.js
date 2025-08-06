@@ -10,6 +10,7 @@ import errorHandler from './middleware/errorHandler.js'
 // Routers
 import userRouter from './controllers/users.js'
 import projectRouter from './controllers/projects.js'
+import pledgeRouter from './controllers/pledges.js'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -21,6 +22,7 @@ app.use(morgan('dev'))
 // * Routes
 app.use('/api/auth', userRouter)
 app.use('/api/projects', projectRouter)
+app.use('/api/pledges', pledgeRouter)
 
 // * Error handler routes
 app.use(notFoundHandler)

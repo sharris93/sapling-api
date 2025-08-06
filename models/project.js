@@ -8,7 +8,16 @@ const projectSchema = new mongoose.Schema({
   currentAmount: { type: Number, required: true, default: 0 },
   deadline: { type: Date, required: true }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true }
+})
+
+// This will create a field on the JSON response whenever we query this model
+// It will contain an array of pledges whose `project` field matches the project we're querying
+projectSchema.virtual('pledges', {
+  ref: 'Pledge',
+  localField: '_id',
+  foreignField: 'project'
 })
 
 const Project = mongoose.model('Project', projectSchema)
