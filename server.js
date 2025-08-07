@@ -2,6 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
+import cors from 'cors'
 
 // Middlware
 import notFoundHandler from './middleware/notFoundHandler.js'
@@ -16,6 +17,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 // * Middleware
+app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
